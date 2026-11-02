@@ -42,7 +42,7 @@ Exemplo de resposta:
 
 Informações que precisamos: name, latitude, longitude, country_code, timezone.
 
-Para pegar as informações de clima: https://api.open-meteo.com/v1/forecast?latitude={LATITUDE}&longitude={LONGITUDE}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,weather_code,wind_direction_10m,wind_speed_10m&timezone={TIMEZONE}
+Para pegar as informações de clima: https://api.open-meteo.com/v1/forecast?latitude={LATITUDE}&longitude={LONGITUDE}&current=precipitation_probability,temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_direction_10m,wind_speed_10m&timezone={TIMEZONE}
 
 {LATITUDE} = Latitude
 {LONGITUDE} = Longitude
@@ -53,7 +53,7 @@ Exemplo de resposta:
 {
   "latitude": 52.512604,
   "longitude": 13.419517,
-  "generationtime_ms": 0.203847885131836,
+  "generationtime_ms": 0.219225883483887,
   "utc_offset_seconds": 0,
   "timezone": "GMT",
   "timezone_abbreviation": "GMT",
@@ -61,30 +61,46 @@ Exemplo de resposta:
   "current_units": {
     "time": "iso8601",
     "interval": "seconds",
+    "precipitation_probability": "%",
     "temperature_2m": "°C",
     "relative_humidity_2m": "%",
     "apparent_temperature": "°C",
     "is_day": "",
     "precipitation": "mm",
-    "rain": "mm",
     "weather_code": "wmo code",
     "wind_direction_10m": "°",
     "wind_speed_10m": "km/h"
   },
   "current": {
-    "time": "2026-10-29T22:00",
+    "time": "2026-11-02T16:15",
     "interval": 900,
-    "temperature_2m": 9.5,
-    "relative_humidity_2m": 96,
-    "apparent_temperature": 8.4,
+    "precipitation_probability": 0,
+    "temperature_2m": 8.8,
+    "relative_humidity_2m": 63,
+    "apparent_temperature": 6.4,
     "is_day": 0,
     "precipitation": 0,
-    "rain": 0,
-    "weather_code": 45,
-    "wind_direction_10m": 313,
-    "wind_speed_10m": 5.9
+    "weather_code": 2,
+    "wind_direction_10m": 132,
+    "wind_speed_10m": 4.3
   }
 }
+
+Informações que precisamos da resposta:
+- current_units é o objeto que vai informar quais unidades de medida que serão utilizadas.
+- current será os valores da unidades que medidas que irá vir.
+
+Propiedades obrigatórias:
+- temperature_2m
+- relative_humidity_2m
+- apparent_temperature
+- is_day
+- wind_speed_10m
+- wind_speed_10m
+- precipitation_probability
+- weather_code
+
+
 
 Informações importantes:
 
@@ -100,3 +116,43 @@ Fluxo de pesquisa para receber o nome da cidade e pegar as informações de clim
 A busca envolve as 2 requisições (buscar latitude/longitude/timezone + buscar clima), mas para o usuário é uma só, com loading.
 
 As funções do OpenMeteo devem verificar se os parâmetros viera, caso contrario, age como se não tivesse vindo.
+
+### Aspectos visuais (design e UX)
+
+Tem que ter Empty State.
+
+Teremos uma área SUPERIO centralizada que tem apenas o campo de busca da cidade
+
+O projeto terá um sidebar na esquerda com as seguintes informações:
+- Temperatura
+- Nome da cidade, Código do pais
+- Dia atual
+- Se é dia/noite (baseado no is_day)
+- Weather Code
+
+Na área principal:
+- Humidade relativa
+- Temperatura aparente
+- Probabilidade de precipitação
+- Velocidade/Direção do vento
+
+Design geral:
+- O projeto terá um fundo cinza escuro
+- A parte superior não terá background, mas tanto sidebar quanto a área principal ficarão dentro de uma div com borda bem arredondada, fundo branco, centralizada e largura máxima de 800px.
+
+Informações de interpretação sobre o Weather Code:
+WMO Weather interpretation codes (WW)
+Code	Description
+0	Clear sky
+1, 2, 3	Mainly clear, partly cloudy, and overcast
+45, 48	Fog and depositing rime fog
+51, 53, 55	Drizzle: Light, moderate, and dense intensity
+56, 57	Freezing Drizzle: Light and dense intensity
+61, 63, 65	Rain: Slight, moderate and heavy intensity
+66, 67	Freezing Rain: Light and heavy intensity
+71, 73, 75	Snow fall: Slight, moderate, and heavy intensity
+77	Snow grains
+80, 81, 82	Rain showers: Slight, moderate, and violent
+85, 86	Snow showers slight and heavy
+95 *	Thunderstorm: Slight or moderate
+96, 99 *	Thunderstorm with slight and heavy hail
