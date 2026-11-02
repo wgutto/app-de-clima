@@ -12,9 +12,74 @@ As regras e decisões de produto permanecem no [PRD](./prd.md). Este documento d
 - Testes e comandos de validação devem ser registrados na descrição da alteração ou no relatório do agente.
 - Uma tarefa bloqueada não deve ser marcada como concluída; registre o motivo e a decisão necessária.
 
-## Sequência de implementação
+## Fases de implementação
 
-### 1. [ ] Preparar a fundação do projeto
+As fases abaixo organizam as tarefas por dependência técnica. Dentro de cada fase, execute as tarefas na ordem indicada e só avance quando os critérios de aprovação da tarefa anterior forem atendidos.
+
+### Fase 1 — Fundação do projeto
+
+**Objetivo:** garantir que o projeto Vite, TypeScript e Vanilla DOM esteja instalável, compilável e executável.
+
+**Tarefas, na ordem recomendada:**
+
+1. Tarefa 1 — Preparar a fundação do projeto.
+
+**Gate da fase:** build de produção, verificação TypeScript e servidor de desenvolvimento funcionando.
+
+### Fase 2 — Domínio e integração de dados
+
+**Objetivo:** criar os contratos internos, integrar a Open-Meteo e preparar as transformações de dados.
+
+**Tarefas, na ordem recomendada:**
+
+1. Tarefa 2 — Definir modelos internos e estados da aplicação.
+2. Tarefa 3 — Implementar a integração de geocodificação.
+3. Tarefa 4 — Implementar a integração do clima atual.
+4. Tarefa 5 — Criar o mapeamento de Weather Code.
+5. Tarefa 6 — Implementar normalização e formatação dos dados.
+
+**Gate da fase:** modelos tipados, integrações isoladas e dados prontos para consumo pela interface.
+
+### Fase 3 — Estrutura e interação inicial da interface
+
+**Objetivo:** construir a estrutura semântica e permitir a entrada de pesquisa com empty state.
+
+**Tarefas, na ordem recomendada:**
+
+1. Tarefa 7 — Construir a estrutura semântica da página.
+2. Tarefa 8 — Implementar a busca e o empty state.
+
+**Gate da fase:** formulário acessível, busca por botão/Enter e estado inicial funcionando sem dados reais.
+
+### Fase 4 — Fluxo de consulta e apresentação dos dados
+
+**Objetivo:** conectar a interface às integrações e exibir sucesso, loading e erros.
+
+**Tarefas, na ordem recomendada:**
+
+1. Tarefa 9 — Implementar o fluxo completo de consulta.
+2. Tarefa 10 — Renderizar o resumo climático.
+3. Tarefa 11 — Renderizar os detalhes meteorológicos.
+4. Tarefa 12 — Implementar loading, erros e tentativa novamente.
+
+**Gate da fase:** jornada completa de busca funcionando, com estados e dados meteorológicos renderizados corretamente.
+
+### Fase 5 — Design, qualidade e entrega
+
+**Objetivo:** finalizar responsividade, acessibilidade, testes e validação do MVP.
+
+**Tarefas, na ordem recomendada:**
+
+1. Tarefa 13 — Aplicar o design visual e responsivo.
+2. Tarefa 14 — Completar a acessibilidade e compatibilidade.
+3. Tarefa 15 — Adicionar os testes essenciais.
+4. Tarefa 16 — Executar validação final e fechar o MVP.
+
+**Gate da fase:** todos os critérios de aceite do PRD atendidos e definição de pronto validada.
+
+## Tarefas detalhadas
+
+### 1. [x] Preparar a fundação do projeto
 
 **Referências:** [Stack e compatibilidade](./prd.md#stack), [RNF03 — Compatibilidade](./prd.md#rnf03--compatibilidade), [Definição de pronto](./prd.md#12-definição-de-pronto).
 
@@ -28,7 +93,7 @@ Configure ou valide a base Vite + TypeScript + Vanilla DOM, incluindo scripts de
 - A verificação de tipos, quando configurada, não apresenta erros.
 - A aplicação abre em um navegador moderno com uma página inicial válida.
 
-### 2. [ ] Definir modelos internos e estados da aplicação
+### 2. [x] Definir modelos internos e estados da aplicação
 
 **Referências:** [Modelo interno sugerido](./prd.md#modelo-interno-sugerido), [RF08 — Estados da interface](./prd.md#rf08--estados-da-interface), [Fluxo técnico da busca](./prd.md#fluxo-técnico-da-busca).
 
@@ -41,7 +106,7 @@ Crie os tipos para localização, clima atual, unidades, estado da tela e erros 
 - Os estados inicial, loading, sucesso, cidade não encontrada, erro e entrada inválida são representados explicitamente.
 - O projeto continua compilando sem uso de `any` para contornar os tipos.
 
-### 3. [ ] Implementar a integração de geocodificação
+### 3. [x] Implementar a integração de geocodificação
 
 **Referências:** [RF03 — Resolver localização](./prd.md#rf03--resolver-localização), [Camada de integração](./prd.md#camada-de-integração), [RNF04 — Confiabilidade](./prd.md#rnf04--confiabilidade).
 
@@ -56,7 +121,7 @@ Implemente a função responsável por consultar o endpoint de geocodificação.
 - Resposta HTTP malsucedida ou payload inválido gera erro controlado.
 - Nenhum componente de UI chama `fetch` diretamente.
 
-### 4. [ ] Implementar a integração do clima atual
+### 4. [x] Implementar a integração do clima atual
 
 **Referências:** [RF04 — Consultar clima atual](./prd.md#rf04--consultar-clima-atual), [Camada de integração](./prd.md#camada-de-integração), [RNF05 — Segurança e privacidade](./prd.md#rnf05--segurança-e-privacidade).
 
@@ -71,7 +136,7 @@ Implemente a função que consulta o forecast usando latitude, longitude e timez
 - As unidades retornadas por `current_units` são preservadas no modelo interno.
 - A integração do clima está isolada da camada de apresentação.
 
-### 5. [ ] Criar o mapeamento de Weather Code
+### 5. [x] Criar o mapeamento de Weather Code
 
 **Referências:** [RF07 — Interpretar Weather Code](./prd.md#rf07--interpretar-weather-code), [Testes unitários](./prd.md#testes-unitários).
 
@@ -85,7 +150,7 @@ Crie um módulo de domínio que converta todos os grupos de códigos WMO listado
 - A função é pura e não depende do DOM ou da rede.
 - Existem testes unitários para cada grupo e para o fallback.
 
-### 6. [ ] Implementar normalização e formatação dos dados
+### 6. [x] Implementar normalização e formatação dos dados
 
 **Referências:** [RF05 — Exibir localização e resumo](./prd.md#rf05--exibir-localização-e-resumo), [RF06 — Exibir detalhes meteorológicos](./prd.md#rf06--exibir-detalhes-meteorológicos), [RNF01 — Responsividade](./prd.md#rnf01--responsividade).
 
@@ -246,4 +311,3 @@ Faça a validação integrada da aplicação em uma viewport desktop e uma viewp
 - Não há chamadas diretas à Open-Meteo fora da camada de integração.
 - Não há erros de console causados pelo fluxo principal.
 - O empty state, loading, sucesso, cidade não encontrada e erro podem ser reproduzidos e conferidos.
-
