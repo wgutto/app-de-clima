@@ -8,11 +8,11 @@ const GEOCODING_ENDPOINT = 'https://geocoding-api.open-meteo.com/v1/search'
 const FORECAST_ENDPOINT = 'https://api.open-meteo.com/v1/forecast'
 
 export class OpenMeteoError extends Error {
-  public readonly code: 'API_ERROR' | 'INVALID_RESPONSE'
+  public readonly code: 'INVALID_INPUT' | 'API_ERROR' | 'INVALID_RESPONSE'
 
   constructor(
     message: string,
-    code: 'API_ERROR' | 'INVALID_RESPONSE',
+    code: 'INVALID_INPUT' | 'API_ERROR' | 'INVALID_RESPONSE',
   ) {
     super(message)
     this.name = 'OpenMeteoError'
@@ -195,7 +195,7 @@ export const findLocation = async (city: string): Promise<Location | null> => {
   if (query.length === 0) {
     throw new OpenMeteoError(
       'O nome da cidade é obrigatório.',
-      'INVALID_RESPONSE',
+      'INVALID_INPUT',
     )
   }
 
@@ -250,7 +250,7 @@ export const getCurrentWeather = async (
   ) {
     throw new OpenMeteoError(
       'A localização possui parâmetros inválidos.',
-      'INVALID_RESPONSE',
+      'INVALID_INPUT',
     )
   }
 
