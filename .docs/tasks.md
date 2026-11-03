@@ -165,7 +165,7 @@ Implemente helpers para normalizar a busca, formatar temperatura, percentuais, v
 - Valores válidos são formatados sem `NaN`, `undefined` ou unidades duplicadas.
 - Casos de borda relevantes possuem testes unitários.
 
-### 7. [ ] Construir a estrutura semântica da página
+### 7. [x] Construir a estrutura semântica da página
 
 **Referências:** [Composição](./prd.md#composição), [Sidebar](./prd.md#sidebar), [Área principal](./prd.md#área-principal), [RNF02 — Acessibilidade](./prd.md#rnf02--acessibilidade).
 
@@ -179,7 +179,7 @@ Crie o HTML/DOM base para a área de busca, painel de resultados, sidebar, área
 - As regiões de loading e mensagens possuem local semântico para atualização acessível.
 - A estrutura não depende de texto visual como único mecanismo de identificação.
 
-### 8. [ ] Implementar a busca e o empty state
+### 8. [x] Implementar a busca e o empty state
 
 **Referências:** [RF01 — Pesquisar cidade](./prd.md#rf01--pesquisar-cidade), [RF02 — Iniciar busca](./prd.md#rf02--iniciar-busca), [Empty state](./prd.md#rf08--estados-da-interface).
 

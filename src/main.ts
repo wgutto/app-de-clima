@@ -1,60 +1,96 @@
 import './style.css'
-import heroImg from './assets/hero.png'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import { setupCounter } from './counter.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+  <header class="site-header">
+    <div class="page-container">
+      <p class="eyebrow">Clima agora</p>
+      <h1>Consulte o clima da sua cidade</h1>
+      <p class="intro">Descubra as condições meteorológicas atuais em qualquer lugar.</p>
+    </div>
+  </header>
 
-<div class="ticks"></div>
+  <main class="page-container">
+    <form id="search-form" class="search-form" novalidate>
+      <div class="search-field">
+        <label for="city-input">Cidade</label>
+        <div class="search-controls">
+          <input
+            id="city-input"
+            name="city"
+            type="text"
+            autocomplete="address-level2"
+            placeholder="Ex.: São Paulo"
+            aria-describedby="city-hint city-error"
+            aria-invalid="false"
+          />
+          <button id="search-button" type="submit">Buscar clima</button>
+        </div>
+        <p id="city-hint" class="field-hint">Digite o nome de uma cidade para começar.</p>
+        <p id="city-error" class="field-error" role="alert"></p>
+      </div>
+    </form>
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+    <section id="weather-panel" class="weather-panel" aria-labelledby="results-heading">
+      <h2 id="results-heading" class="sr-only">Resultado do clima</h2>
+      <aside class="weather-summary" aria-labelledby="summary-heading">
+        <h3 id="summary-heading">Resumo</h3>
+        <div id="summary-content"></div>
+      </aside>
+      <section class="weather-details" aria-labelledby="details-heading">
+        <h3 id="details-heading">Detalhes meteorológicos</h3>
+        <div id="details-content"></div>
+      </section>
+    </section>
 
-<div class="ticks"></div>
-<section id="spacer"></section>
+    <section id="initial-state" class="message-panel" aria-labelledby="initial-heading">
+      <h2 id="initial-heading">Pesquise uma cidade</h2>
+      <p>Informe uma cidade acima para ver o clima atual.</p>
+    </section>
+
+    <div id="loading-message" class="message-panel" role="status" aria-live="polite" hidden>
+      <p>Buscando o clima...</p>
+    </div>
+    <div id="status-message" class="message-panel" role="status" aria-live="polite" hidden></div>
+  </main>
 `
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const form = document.querySelector<HTMLFormElement>('#search-form')!
+const cityInput = document.querySelector<HTMLInputElement>('#city-input')!
+const searchButton = document.querySelector<HTMLButtonElement>('#search-button')!
+const cityError = document.querySelector<HTMLParagraphElement>('#city-error')!
+const initialState = document.querySelector<HTMLElement>('#initial-state')!
+const weatherPanel = document.querySelector<HTMLElement>('#weather-panel')!
+const loadingMessage = document.querySelector<HTMLElement>('#loading-message')!
+
+let isLoading = false
+
+const setLoadingState = (loading: boolean): void => {
+  isLoading = loading
+  searchButton.disabled = loading
+  cityInput.disabled = loading
+  loadingMessage.hidden = !loading
+  initialState.hidden = loading
+}
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault()
+
+  if (isLoading) {
+    return
+  }
+
+  const query = cityInput.value.trim()
+  cityError.textContent = ''
+  cityInput.setAttribute('aria-invalid', 'false')
+
+  if (query.length === 0) {
+    cityError.textContent = 'Digite o nome de uma cidade.'
+    cityInput.setAttribute('aria-invalid', 'true')
+    cityInput.focus()
+    return
+  }
+
+  cityInput.value = query
+  weatherPanel.hidden = true
+  setLoadingState(true)
+})
