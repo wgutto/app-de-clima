@@ -252,7 +252,7 @@ Finalize o feedback de operação para loading, cidade não encontrada, falha da
 - Mensagens são anunciadas por região `aria-live` adequada.
 - Não existe atualização automática nem cache no comportamento implementado.
 
-### 13. [ ] Aplicar o design visual e responsivo
+### 13. [x] Aplicar o design visual e responsivo
 
 **Referências:** [Instruções visuais e UX](./prd.md#8-instruções-visuais-e-ux), [RNF01 — Responsividade](./prd.md#rnf01--responsividade).
 
@@ -267,7 +267,7 @@ Aplique o fundo cinza escuro, painel branco centralizado com largura máxima de 
 - O campo de busca, painel e cards de detalhes preservam margens e espaçamento legíveis.
 - Foco, contraste e estados não dependem apenas de cor.
 
-### 14. [ ] Completar a acessibilidade e compatibilidade
+### 14. [x] Completar a acessibilidade e compatibilidade
 
 **Referências:** [RNF02 — Acessibilidade](./prd.md#rnf02--acessibilidade), [RNF03 — Compatibilidade](./prd.md#rnf03--compatibilidade).
 
@@ -282,7 +282,7 @@ Faça uma revisão específica de teclado, foco, semântica, textos alternativos
 - Loading e erros são comunicados sem depender apenas de mudança visual.
 - A interface não apresenta rolagem horizontal na viewport mobile validada.
 
-### 15. [ ] Adicionar os testes essenciais
+### 15. [x] Adicionar os testes essenciais
 
 **Referências:** [Testes essenciais](./prd.md#10-testes-essenciais), [Critérios de aceite](./prd.md#9-criterios-de-aceite).
 
@@ -297,7 +297,7 @@ Adicione testes unitários para domínio e integração, além de testes de comp
 - Há testes para Enter, botão, loading e bloqueio de submissão duplicada.
 - O comando de testes configurado passa sem falhas.
 
-### 16. [ ] Executar validação final e fechar o MVP
+### 16. [x] Executar validação final e fechar o MVP
 
 **Referências:** [Critérios de aceite](./prd.md#9-criterios-de-aceite), [Métricas e observabilidade](./prd.md#11-métricas-e-observabilidade-do-mvp), [Definição de pronto](./prd.md#12-definição-de-pronto).
 

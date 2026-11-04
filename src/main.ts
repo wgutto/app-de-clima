@@ -50,7 +50,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </aside>
       <section class="weather-details" aria-labelledby="details-heading">
         <h3 id="details-heading">Detalhes meteorológicos</h3>
-        <div id="details-content"></div>
+        <dl id="details-content"></dl>
       </section>
     </section>
 
@@ -62,7 +62,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div id="loading-message" class="message-panel" role="status" aria-live="polite" hidden>
       <p>Buscando o clima...</p>
     </div>
-    <div id="status-message" class="message-panel" role="status" aria-live="polite" hidden></div>
+    <div id="status-message" class="message-panel" role="alert" aria-live="assertive" hidden></div>
   </main>
 `
 
@@ -88,8 +88,8 @@ const clearResults = (): void => {
 const setLoadingState = (loading: boolean): void => {
   isLoading = loading
   searchButton.disabled = loading
-  cityInput.disabled = loading
   loadingMessage.hidden = !loading
+  cityInput.setAttribute('aria-busy', String(loading))
   if (loading) {
     initialState.hidden = true
     statusMessage.hidden = true
@@ -155,6 +155,45 @@ const createPeriodIcon = (isDay: boolean): SVGSVGElement => {
   return svg
 }
 
+const createWeatherIcon = (iconName: string): HTMLSpanElement => {
+  const iconByCondition: Record<string, string> = {
+    'clear-sky': '☀',
+    'mainly-clear': '🌤',
+    'partly-cloudy': '⛅',
+    overcast: '☁',
+    fog: '≋',
+    'rime-fog': '≋',
+    'drizzle-light': '☂',
+    'drizzle-moderate': '☂',
+    'drizzle-dense': '☂',
+    'freezing-drizzle-light': '❄',
+    'freezing-drizzle-dense': '❄',
+    'rain-light': '☂',
+    'rain-moderate': '☂',
+    'rain-heavy': '☂',
+    'freezing-rain-light': '❄',
+    'freezing-rain-heavy': '❄',
+    'snow-light': '❄',
+    'snow-moderate': '❄',
+    'snow-heavy': '❄',
+    'snow-grains': '❄',
+    'rain-showers-light': '☂',
+    'rain-showers-moderate': '☂',
+    'rain-showers-violent': '☂',
+    'snow-showers-light': '❄',
+    'snow-showers-heavy': '❄',
+    thunderstorm: '⚡',
+    'thunderstorm-hail-light': '⚡',
+    'thunderstorm-hail-heavy': '⚡',
+    unknown: '•',
+  }
+  const icon = document.createElement('span')
+  icon.className = 'weather-icon'
+  icon.setAttribute('aria-hidden', 'true')
+  icon.textContent = iconByCondition[iconName] ?? iconByCondition.unknown
+  return icon
+}
+
 const renderSummary = (location: Location, current: CurrentWeather): void => {
   const condition = getWeatherCondition(current.weatherCode)
   summaryContent.replaceChildren()
@@ -170,7 +209,10 @@ const renderSummary = (location: Location, current: CurrentWeather): void => {
 
   const conditionDescription = document.createElement('p')
   conditionDescription.className = 'weather-condition'
-  conditionDescription.textContent = condition.description
+  conditionDescription.append(createWeatherIcon(condition.icon))
+  const conditionText = document.createElement('span')
+  conditionText.textContent = condition.description
+  conditionDescription.append(conditionText)
 
   const localTime = document.createElement('p')
   localTime.textContent = formatLocalDateTime(current.time, location.timezone)
