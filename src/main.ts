@@ -64,6 +64,12 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </div>
     <div id="status-message" class="message-panel" role="alert" aria-live="assertive" hidden></div>
   </main>
+
+  <footer class="site-footer">
+    <div class="page-container">
+      <p>Desenvolvido por Augusto Brito</p>
+    </div>
+  </footer>
 `
 
 const form = document.querySelector<HTMLFormElement>('#search-form')!

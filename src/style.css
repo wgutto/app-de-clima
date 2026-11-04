@@ -18,6 +18,12 @@ body {
   background: #252a33;
 }
 
+#app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 button,
 input {
   font: inherit;
@@ -31,6 +37,24 @@ input {
 .site-header {
   padding: 3.5rem 0 2rem;
   color: #fff;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 2rem;
+}
+
+.site-footer {
+  margin-top: 1rem;
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid rgb(211 218 231 / 20%);
+  color: #d3dae7;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
 }
 
 .eyebrow {
@@ -292,6 +316,10 @@ button:focus-visible {
 @media (max-width: 600px) {
   .site-header {
     padding-top: 2.5rem;
+  }
+
+  main {
+    padding-bottom: 1rem;
   }
 
   .search-controls,

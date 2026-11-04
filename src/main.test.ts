@@ -61,6 +61,7 @@ describe('fluxo da interface', () => {
     api.getCurrentWeather.mockResolvedValue(current)
     await loadApp()
 
+    expect(document.querySelector('.site-footer')?.textContent).toContain('Augusto Brito')
     document.querySelector<HTMLInputElement>('#city-input')!.value = ' São Paulo '
     document.querySelector<HTMLButtonElement>('#search-button')!.click()
     await vi.waitFor(() => {
