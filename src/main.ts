@@ -121,6 +121,40 @@ const showStatus = (message: string, retryQuery?: string): void => {
   statusMessage.hidden = false
 }
 
+const createPeriodIcon = (isDay: boolean): SVGSVGElement => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  svg.setAttribute('viewBox', '0 0 24 24')
+  svg.setAttribute('aria-hidden', 'true')
+  svg.classList.add('period-icon')
+
+  if (isDay) {
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+    circle.setAttribute('cx', '12')
+    circle.setAttribute('cy', '12')
+    circle.setAttribute('r', '4')
+    circle.classList.add('sun-core')
+    svg.append(circle)
+
+    for (let index = 0; index < 8; index += 1) {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+      const angle = (index * Math.PI) / 4
+      line.setAttribute('x1', String(12 + Math.cos(angle) * 7))
+      line.setAttribute('y1', String(12 + Math.sin(angle) * 7))
+      line.setAttribute('x2', String(12 + Math.cos(angle) * 9))
+      line.setAttribute('y2', String(12 + Math.sin(angle) * 9))
+      line.classList.add('sun-ray')
+      svg.append(line)
+    }
+  } else {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+    path.setAttribute('d', 'M20 15.5A8 8 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z')
+    path.classList.add('moon-shape')
+    svg.append(path)
+  }
+
+  return svg
+}
+
 const renderSummary = (location: Location, current: CurrentWeather): void => {
   const condition = getWeatherCondition(current.weatherCode)
   summaryContent.replaceChildren()
@@ -142,7 +176,11 @@ const renderSummary = (location: Location, current: CurrentWeather): void => {
   localTime.textContent = formatLocalDateTime(current.time, location.timezone)
 
   const period = document.createElement('p')
-  period.textContent = current.isDay ? 'Dia' : 'Noite'
+  period.className = 'weather-period'
+  period.append(createPeriodIcon(current.isDay))
+  const periodText = document.createElement('span')
+  periodText.textContent = current.isDay ? 'Dia' : 'Noite'
+  period.append(periodText)
 
   summaryContent.append(city, temperature, conditionDescription, localTime, period)
 }

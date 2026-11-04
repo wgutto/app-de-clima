@@ -86,8 +86,11 @@ export const formatLocalDateTime = (value: string, timezone: string): string => 
   }
 
   const formatter = new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'short',
-    timeStyle: 'short',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
     timeZone: timezone,
   })
   const utcMillis = Date.UTC(
@@ -114,5 +117,24 @@ export const formatLocalDateTime = (value: string, timezone: string): string => 
   )
   const localInstant = new Date(utcMillis - (targetAsUtc - utcMillis))
 
-  return formatter.format(localInstant)
+  const longDateFormatter = new Intl.DateTimeFormat('pt-BR', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: timezone,
+  })
+  const formattedParts = longDateFormatter.formatToParts(localInstant)
+  const partsByType = formattedParts.reduce<Record<string, string>>((result, part) => {
+    if (part.type !== 'literal') {
+      result[part.type] = part.value
+    }
+    return result
+  }, {})
+
+  return `${partsByType.weekday}, ${partsByType.day} de ${partsByType.month} de ${
+    partsByType.year
+  } às ${partsByType.hour}:${partsByType.minute}`
 }

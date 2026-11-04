@@ -50,7 +50,7 @@ describe('formatação de valores meteorológicos', () => {
 describe('formatação de data e hora', () => {
   it('mantém o horário local retornado pela cidade', () => {
     expect(formatLocalDateTime('2026-11-02T16:15', 'America/Sao_Paulo')).toBe(
-      '02/11/2026, 16:15',
+      'segunda-feira, 02 de novembro de 2026 às 16:15',
     )
   })
 

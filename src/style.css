@@ -163,6 +163,33 @@ button:focus-visible {
   font-weight: 700;
 }
 
+.weather-period {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.period-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.sun-core {
+  fill: currentColor;
+  stroke: none;
+}
+
+.moon-shape {
+  fill: currentColor;
+  stroke: none;
+}
+
 .weather-detail {
   border-bottom: 1px solid #e0e5ee;
   padding: 0.85rem 0;
