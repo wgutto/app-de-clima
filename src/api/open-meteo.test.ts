@@ -63,6 +63,7 @@ describe('integração Open-Meteo', () => {
     })
 
     const requestUrl = new URL(String(fetchMock.mock.calls[0][0]))
+    expect(fetchMock.mock.calls[0][1]).toMatchObject({ cache: 'no-store' })
     expect(requestUrl.searchParams.get('name')).toBe('São Paulo')
     expect(requestUrl.searchParams.get('count')).toBe('1')
     expect(requestUrl.searchParams.get('language')).toBe('pt')
@@ -119,6 +120,7 @@ describe('integração Open-Meteo', () => {
     })
 
     const requestUrl = new URL(String(fetchMock.mock.calls[0][0]))
+    expect(fetchMock.mock.calls[0][1]).toMatchObject({ cache: 'no-store' })
     expect(requestUrl.searchParams.get('latitude')).toBe('-23.55')
     expect(requestUrl.searchParams.get('longitude')).toBe('-46.63')
     expect(requestUrl.searchParams.get('timezone')).toBe('America/Sao_Paulo')

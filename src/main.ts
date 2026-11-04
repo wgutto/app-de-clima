@@ -1,7 +1,7 @@
 import './style.css'
 import { findLocation, getCurrentWeather, OpenMeteoError } from './api/open-meteo.ts'
 import {
-  formatLocalDateTime,
+  formatCurrentLocalDateTime,
   formatPercentage,
   formatTemperature,
   formatWindDirection,
@@ -215,7 +215,7 @@ const renderSummary = (location: Location, current: CurrentWeather): void => {
   conditionDescription.append(conditionText)
 
   const localTime = document.createElement('p')
-  localTime.textContent = formatLocalDateTime(current.time, location.timezone)
+  localTime.textContent = `Atualizado em ${formatCurrentLocalDateTime(location.timezone)}`
 
   const period = document.createElement('p')
   period.className = 'weather-period'

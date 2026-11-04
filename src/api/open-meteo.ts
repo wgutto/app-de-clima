@@ -256,7 +256,7 @@ export const findLocation = async (city: string): Promise<Location | null> => {
   let response: Response
 
   try {
-    response = await fetch(url)
+    response = await fetch(url, { cache: 'no-store' })
   } catch {
     throw new OpenMeteoError(
       'Não foi possível conectar à API de geocodificação.',
@@ -327,7 +327,7 @@ export const getCurrentWeather = async (
   let response: Response
 
   try {
-    response = await fetch(url)
+    response = await fetch(url, { cache: 'no-store' })
   } catch {
     throw new OpenMeteoError(
       'Não foi possível conectar à API de clima.',

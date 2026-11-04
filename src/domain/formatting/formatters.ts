@@ -138,3 +138,29 @@ export const formatLocalDateTime = (value: string, timezone: string): string => 
     partsByType.year
   } às ${partsByType.hour}:${partsByType.minute}`
 }
+
+export const formatCurrentLocalDateTime = (
+  timezone: string,
+  date: Date = new Date(),
+): string => {
+  const formattedParts = new Intl.DateTimeFormat('pt-BR', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: timezone,
+  })
+    .formatToParts(date)
+    .reduce<Record<string, string>>((result, part) => {
+      if (part.type !== 'literal') {
+        result[part.type] = part.value
+      }
+      return result
+    }, {})
+
+  return `${formattedParts.weekday}, ${formattedParts.day} de ${formattedParts.month} de ${
+    formattedParts.year
+  } às ${formattedParts.hour}:${formattedParts.minute}`
+}

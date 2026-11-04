@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  formatCurrentLocalDateTime,
   formatLocalDateTime,
   formatPercentage,
   formatTemperature,
@@ -48,6 +49,15 @@ describe('formatação de valores meteorológicos', () => {
 })
 
 describe('formatação de data e hora', () => {
+  it('formata o horário real da consulta no timezone da cidade', () => {
+    expect(
+      formatCurrentLocalDateTime(
+        'America/Sao_Paulo',
+        new Date('2026-11-04T00:44:00.000Z'),
+      ),
+    ).toContain('03 de novembro de 2026 às 21:44')
+  })
+
   it('mantém o horário local retornado pela cidade', () => {
     expect(formatLocalDateTime('2026-11-02T16:15', 'America/Sao_Paulo')).toBe(
       'segunda-feira, 02 de novembro de 2026 às 16:15',
