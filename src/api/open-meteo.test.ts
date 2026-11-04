@@ -49,6 +49,7 @@ describe('integração Open-Meteo', () => {
                 latitude: -23.55,
                 longitude: -46.63,
                 country_code: 'BR',
+                admin1: 'São Paulo',
                 timezone: 'America/Sao_Paulo',
               },
             ],
@@ -56,7 +57,10 @@ describe('integração Open-Meteo', () => {
         ),
       )
 
-    await expect(findLocation(' São Paulo ')).resolves.toEqual(location)
+    await expect(findLocation(' São Paulo ')).resolves.toEqual({
+      ...location,
+      stateCode: 'SP',
+    })
 
     const requestUrl = new URL(String(fetchMock.mock.calls[0][0]))
     expect(requestUrl.searchParams.get('name')).toBe('São Paulo')

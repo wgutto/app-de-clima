@@ -30,8 +30,16 @@ describe('formatação de valores meteorológicos', () => {
     expect(formatWindSpeed(12.4)).toBe('12,4 km/h')
   })
 
-  it('arredonda a direção do vento e adiciona graus', () => {
-    expect(formatWindDirection(132.6)).toBe('133 °')
+  it('converte graus para direção cardeal', () => {
+    expect(formatWindDirection(0)).toBe('N')
+    expect(formatWindDirection(45)).toBe('NE')
+    expect(formatWindDirection(132.6)).toBe('SE')
+    expect(formatWindDirection(270)).toBe('O')
+  })
+
+  it('normaliza graus fora do intervalo da bússola', () => {
+    expect(formatWindDirection(360)).toBe('N')
+    expect(formatWindDirection(-45)).toBe('NO')
   })
 
   it('usa fallback para números inválidos', () => {

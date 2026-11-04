@@ -193,7 +193,7 @@ Conecte o formulário ao estado inicial e implemente a submissão por botão e E
 - Termo vazio não chama nenhuma API e exibe mensagem próxima ao campo.
 - A submissão duplicada é bloqueada durante loading.
 
-### 9. [ ] Implementar o fluxo completo de consulta
+### 9. [x] Implementar o fluxo completo de consulta
 
 **Referências:** [Jornada principal](./prd.md#jornada-principal), [Fluxo técnico da busca](./prd.md#fluxo-técnico-da-busca), [RF08 — Estados da interface](./prd.md#rf08--estados-da-interface).
 
@@ -208,7 +208,7 @@ Orquestre a geocodificação e a consulta de clima em uma única ação de usuá
 - Uma nova busca malsucedida não deixa dados anteriores aparentando ser o resultado atual.
 - Uma busca bem-sucedida renderiza o estado `success` com os dados transformados.
 
-### 10. [ ] Renderizar o resumo climático
+### 10. [x] Renderizar o resumo climático
 
 **Referências:** [RF05 — Exibir localização e resumo](./prd.md#rf05--exibir-localização-e-resumo), [Sidebar](./prd.md#sidebar).
 
@@ -223,7 +223,7 @@ Renderize na sidebar a temperatura, cidade, código do país, data/hora local, p
 - O Weather Code exibe ícone e descrição textual em português.
 - Dados ausentes não geram conteúdo quebrado ou exceções no DOM.
 
-### 11. [ ] Renderizar os detalhes meteorológicos
+### 11. [x] Renderizar os detalhes meteorológicos
 
 **Referências:** [RF06 — Exibir detalhes meteorológicos](./prd.md#rf06--exibir-detalhes-meteorológicos), [Área principal](./prd.md#área-principal).
 
@@ -237,7 +237,7 @@ Renderize na área principal a umidade relativa, sensação térmica, probabilid
 - A sensação térmica é distinguida visualmente da temperatura atual.
 - A área não exibe placeholders de sucesso quando o estado não é `success`.
 
-### 12. [ ] Implementar loading, erros e tentativa novamente
+### 12. [x] Implementar loading, erros e tentativa novamente
 
 **Referências:** [RF08 — Estados da interface](./prd.md#rf08--estados-da-interface), [RNF04 — Confiabilidade](./prd.md#rnf04--confiabilidade), [Busca](./prd.md#busca).
 

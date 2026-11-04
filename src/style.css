@@ -147,6 +147,55 @@ button:focus-visible {
   font-size: 1rem;
 }
 
+.weather-summary h4 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+}
+
+.current-temperature {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.weather-condition {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.weather-detail {
+  border-bottom: 1px solid #e0e5ee;
+  padding: 0.85rem 0;
+}
+
+.weather-detail:first-child {
+  padding-top: 0;
+}
+
+.weather-detail:last-child {
+  border-bottom: 0;
+}
+
+.weather-detail dt {
+  color: #596579;
+  font-size: 0.9rem;
+}
+
+.weather-detail dd {
+  margin: 0.25rem 0 0;
+  font-weight: 700;
+}
+
+.retry-button {
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.65rem 1rem;
+  color: #fff;
+  background: #c6530a;
+  cursor: pointer;
+  font-weight: 700;
+}
+
 .message-panel {
   margin-bottom: 2rem;
   border: 1px dashed #b5c0d0;

@@ -57,8 +57,26 @@ export const formatPercentage = (value: number, unit = '%'): string =>
 export const formatWindSpeed = (value: number, unit = 'km/h'): string =>
   formatNumberWithUnit(value, unit)
 
-export const formatWindDirection = (value: number, unit = '°'): string =>
-  formatNumberWithUnit(Math.round(value), unit)
+const windDirections = [
+  'N',
+  'NE',
+  'E',
+  'SE',
+  'S',
+  'SO',
+  'O',
+  'NO',
+] as const
+
+export const formatWindDirection = (value: number): string => {
+  if (!Number.isFinite(value)) {
+    return '—'
+  }
+
+  const normalizedDegrees = ((value % 360) + 360) % 360
+  const directionIndex = Math.round(normalizedDegrees / 45) % windDirections.length
+  return windDirections[directionIndex]
+}
 
 export const formatLocalDateTime = (value: string, timezone: string): string => {
   const parts = dateTimeParts(value)

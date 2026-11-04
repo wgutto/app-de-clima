@@ -3,6 +3,7 @@ export type Location = {
   latitude: number
   longitude: number
   countryCode: string
+  stateCode?: string
   timezone: string
 }
 

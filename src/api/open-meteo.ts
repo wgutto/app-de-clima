@@ -25,6 +25,7 @@ type GeocodingResult = {
   latitude: number
   longitude: number
   country_code: string
+  admin1?: string
   timezone: string
 }
 
@@ -65,6 +66,53 @@ type ForecastResponse = {
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
+
+const brazilianStateCodes: Record<string, string> = {
+  acre: 'AC',
+  alagoas: 'AL',
+  amapa: 'AP',
+  amazonas: 'AM',
+  bahia: 'BA',
+  ceara: 'CE',
+  'distrito federal': 'DF',
+  'espirito santo': 'ES',
+  goias: 'GO',
+  maranhao: 'MA',
+  'mato grosso': 'MT',
+  'mato grosso do sul': 'MS',
+  'minas gerais': 'MG',
+  para: 'PA',
+  paraiba: 'PB',
+  parana: 'PR',
+  pernambuco: 'PE',
+  piaui: 'PI',
+  'rio de janeiro': 'RJ',
+  'rio grande do norte': 'RN',
+  'rio grande do sul': 'RS',
+  rondonia: 'RO',
+  roraima: 'RR',
+  'santa catarina': 'SC',
+  'sao paulo': 'SP',
+  sergipe: 'SE',
+  tocantins: 'TO',
+}
+
+const getStateCode = (countryCode: string, stateName?: string): string | undefined => {
+  if (!stateName) {
+    return undefined
+  }
+
+  if (countryCode.toUpperCase() !== 'BR') {
+    return stateName
+  }
+
+  const normalizedName = stateName
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+
+  return brazilianStateCodes[normalizedName]
+}
 
 const isGeocodingResult = (value: unknown): value is GeocodingResult => {
   if (!isRecord(value)) {
@@ -231,11 +279,14 @@ export const findLocation = async (city: string): Promise<Location | null> => {
     )
   }
 
+  const stateCode = getStateCode(result.country_code, result.admin1)
+
   return {
     name: result.name,
     latitude: result.latitude,
     longitude: result.longitude,
     countryCode: result.country_code,
+    ...(stateCode === undefined ? {} : { stateCode }),
     timezone: result.timezone,
   }
 }
